@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AquaSearch - DLS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            💧 AquaSearch
+        </div>
+
+        <p>
+            Depth-Limited Search
+            Water Tank Simulation
+        </p>
+
+    </header>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <section class="main-area">
+
+
+        <!-- LEFT SIDE -->
+
+        <div class="controls">
+
+
+            <h1>
+                Smart Water Tank
+            </h1>
+
+            <p class="description">
+
+                Adjust the DLS depth level and watch
+                the water level change automatically.
+
+            </p>
+
+
+
+            <!-- DEPTH SLIDER -->
+
+            <div class="slider-section">
+
+                <label>
+                    DLS Depth Level
+                </label>
+
+                <div class="depth-number">
+
+                    <span id="depthValue">
+                        3
+                    </span>
+
+                </div>
+
+
+                <input
+                    type="range"
+                    id="depthSlider"
+                    name="depth"
+                    min="0"
+                    max="5"
+                    value="3"
+                    oninput="updateWaterLevel()"
+                >
+
+
+                <div class="range-labels">
+
+                    <span>0</span>
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- WATER LEVEL -->
+
+            <div class="water-info">
+
+                <h3>
+                    Current Water Level
+                </h3>
+
+                <div
+                    id="waterPercentage"
+                    class="percentage"
+                >
+                    80%
+                </div>
+
+                <p id="waterMessage">
+                    Tank is filling...
+                </p>
+
+            </div>
+
+
+
+            <!-- SEARCH FORM -->
+
+            <form
+                action="/search"
+                method="POST"
+                onsubmit="sendDepth()"
+            >
+
+
+                <input
+                    type="hidden"
+                    name="depth"
+                    id="hiddenDepth"
+                    value="3"
+                >
+
+
+                <label>
+                    🎯 Select Target Tank
+                </label>
+
+
+                <select name="goal">
+
+                    <option value="A1b">
+                        A1b - Level 3
+                    </option>
+
+                    <option value="A1a">
+                        A1a - Level 3
+                    </option>
+
+                    <option value="A2a">
+                        A2a - Level 3
+                    </option>
+
+                    <option value="B1a">
+                        B1a - Level 3
+                    </option>
+
+                    <option value="B2a">
+                        B2a - Level 3
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="hidden"
+                    name="start"
+                    value="Main Tank"
+                >
+
+
+                <button type="submit">
+
+                    🚀 RUN DLS
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- RIGHT SIDE : WATER TANK -->
+
+        <div class="tank-area">
+
+
+            <div class="tank">
+
+
+                <!-- WATER -->
+
+                <div
+                    id="water"
+                    class="water"
+                >
+
+                    <div class="waves"></div>
+
+                </div>
+
+
+                <!-- LEVEL MARKERS -->
+
+                <div class="level level-5">
+                    100%
+                </div>
+
+                <div class="level level-4">
+                    80%
+                </div>
+
+                <div class="level level-3">
+                    60%
+                </div>
+
+                <div class="level level-2">
+                    40%
+                </div>
+
+                <div class="level level-1">
+                    20%
+                </div>
+
+
+                <!-- TANK TEXT -->
+
+                <div class="tank-name">
+
+                    💧 MAIN TANK
+
+                </div>
+
+
+            </div>
+
+
+            <div class="tank-status">
+
+                <span id="statusLight"></span>
+
+                <span id="tankStatus">
+                    NORMAL
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- RESULT -->
+
+    {% if found is defined %}
+
+    <section class="result-section">
+
+
+        {% if found %}
+
+        <div class="success">
+
+            <h2>
+                🎯 TARGET FOUND!
+            </h2>
+
+            <p>
+
+                DLS successfully reached
+
+                <strong>
+                    {{ goal }}
+                </strong>
+
+            </p>
+
+        </div>
+
+
+        {% else %}
+
+        <div class="failure">
+
+            <h2>
+                ⚠️ TARGET NOT FOUND
+            </h2>
+
+            <p>
+
+                Depth limit is too small.
+
+            </p>
+
+            <p>
+
+                Target requires depth:
+
+                <strong>
+                    {{ target_depth }}
+                </strong>
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- SEARCH PATH -->
+
+        <div class="path-box">
+
+            <h3>
+                🔎 DLS Search Path
+            </h3>
+
+
+            <div class="path">
+
+                {% for node in path %}
+
+                    <span class="path-node">
+
+                        {{ node }}
+
+                    </span>
+
+
+                    {% if not loop.last %}
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    {% endif %}
+
+
+
+    <!-- EXPLANATION -->
+
+    <section class="explanation">
+
+        <h2>
+            🧠 How DLS Works
+        </h2>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <span>1</span>
+
+                <h3>
+                    Start
+                </h3>
+
+                <p>
+                    Search starts from the Main Tank.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <span>2</span>
+
+                <h3>
+                    Explore
+                </h3>
+
+                <p>
+                    DLS explores tanks depth-first.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <span>3</span>
+
+                <h3>
+                    Limit
+                </h3>
+
+                <p>
+                    Search stops at the selected depth.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <span>4</span>
+
+                <h3>
+                    Result
+                </h3>
+
+                <p>
+                    Target is found if within the limit.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <footer>
+
+        💧 AquaSearch
+
+        <br>
+
+        Depth-Limited Search Project
+
+    </footer>
+
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='script.js') }}">
+</script>
+
+
+</body>
+
+</html>
