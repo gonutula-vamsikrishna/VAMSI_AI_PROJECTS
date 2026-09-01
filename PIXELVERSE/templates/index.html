@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PIXELVERSE | Gaming Universe</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #070b18;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: #7c5cff;
+            filter: blur(180px);
+            opacity: 0.08;
+            top: -250px;
+            left: -200px;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: #00d4ff;
+            filter: blur(180px);
+            opacity: 0.06;
+            right: -200px;
+            bottom: -200px;
+            z-index: -1;
+        }
+
+
+        /* HEADER */
+
+        header {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            background: rgba(10, 15, 35, 0.85);
+            border-bottom: 1px solid #202947;
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #8c6cff;
+        }
+
+        .player-info {
+            display: flex;
+            gap: 12px;
+        }
+
+        .info {
+            min-width: 80px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: #121a31;
+            border: 1px solid #273152;
+            text-align: center;
+        }
+
+        .info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .info small {
+            color: #8992b5;
+            font-size: 9px;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            max-width: 1200px;
+            margin: auto;
+            padding: 65px 25px 40px;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(40px, 6vw, 72px);
+            line-height: 1;
+            margin: 0;
+        }
+
+        .hero-content h1 span {
+            color: #8c6cff;
+        }
+
+        .hero-content p {
+            color: #9aa3c5;
+            font-size: 18px;
+            max-width: 650px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            margin-top: 25px;
+        }
+
+        .main-btn,
+        .secondary-btn {
+            display: inline-block;
+            padding: 15px 28px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .main-btn {
+            background: #7c5cff;
+            box-shadow: 0 10px 35px rgba(124,92,255,0.25);
+        }
+
+        .secondary-btn {
+            background: #151d35;
+            border: 1px solid #293354;
+        }
+
+
+        /* PROFILE */
+
+        .profile-card {
+            background: linear-gradient(
+                145deg,
+                #171f3b,
+                #0d1328
+            );
+
+            border: 1px solid #303b64;
+            border-radius: 25px;
+            padding: 28px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+        }
+
+        .avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #7c5cff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .profile-card h2 {
+            margin: 5px 0;
+        }
+
+        .rank {
+            color: #9aa3c5;
+            font-size: 14px;
+        }
+
+        .xp-bar {
+            height: 10px;
+            background: #080d1d;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .xp-progress {
+            height: 100%;
+            background: #7c5cff;
+            border-radius: 10px;
+        }
+
+        .xp-text {
+            display: flex;
+            justify-content: space-between;
+            color: #8992b5;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+
+        /* SECTION */
+
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .section-title span {
+            color: #8992b5;
+            font-size: 13px;
+        }
+
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: #11182e;
+            border: 1px solid #242e4d;
+            border-radius: 18px;
+            padding: 22px;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #7c5cff;
+        }
+
+        .stat-icon {
+            font-size: 25px;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 28px;
+            margin-top: 8px;
+        }
+
+        .stat-card small {
+            color: #8992b5;
+        }
+
+
+        /* GAMES */
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .game-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(
+                145deg,
+                #171f3b,
+                #0e1428
+            );
+            border: 1px solid #293354;
+            border-radius: 22px;
+            padding: 25px;
+            min-height: 270px;
+            transition: 0.35s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #7c5cff;
+            box-shadow:
+                0 20px 45px
+                rgba(124,92,255,0.15);
+        }
+
+        .game-number {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            color: #394362;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .game-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .game-card h3 {
+            font-size: 22px;
+            margin: 5px 0;
+        }
+
+        .game-card p {
+            color: #8992b5;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .play-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 11px 20px;
+            border-radius: 20px;
+            background: #7c5cff;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        /* FEATURES */
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                #251d52,
+                #11182e
+            );
+            border: 1px solid #463c79;
+            border-radius: 22px;
+            padding: 28px;
+        }
+
+        .challenge h3 {
+            font-size: 25px;
+            margin: 8px 0;
+        }
+
+        .challenge p {
+            color: #aab2d0;
+        }
+
+        .challenge-progress {
+            height: 9px;
+            background: #080d1d;
+            border-radius: 10px;
+            margin: 18px 0;
+        }
+
+        .challenge-progress div {
+            height: 100%;
+            background: #8c6cff;
+            border-radius: 10px;
+        }
+
+        .reward {
+            background: #11182e;
+            border: 1px solid #293354;
+            border-radius: 22px;
+            padding: 28px;
+        }
+
+        .reward-icon {
+            font-size: 45px;
+        }
+
+        .reward h3 {
+            margin: 10px 0;
+        }
+
+        .reward p {
+            color: #8992b5;
+            font-size: 14px;
+        }
+
+
+        /* LEADERBOARD */
+
+        .leaderboard {
+            background: #11182e;
+            border: 1px solid #293354;
+            border-radius: 22px;
+            overflow: hidden;
+        }
+
+        .leader {
+            display: grid;
+            grid-template-columns: 60px 1fr 120px;
+            align-items: center;
+            padding: 17px 22px;
+            border-bottom: 1px solid #202947;
+        }
+
+        .leader:last-child {
+            border-bottom: none;
+        }
+
+        .leader-rank {
+            font-size: 20px;
+        }
+
+        .leader-name {
+            font-weight: bold;
+        }
+
+        .leader-score {
+            text-align: right;
+            color: #9c8aff;
+            font-weight: bold;
+        }
+
+
+        /* ACHIEVEMENTS */
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .achievement {
+            background: #11182e;
+            border: 1px solid #293354;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .achievement-icon {
+            font-size: 40px;
+        }
+
+        .achievement h4 {
+            margin: 10px 0 5px;
+        }
+
+        .achievement p {
+            color: #8992b5;
+            font-size: 12px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: #68718f;
+            border-top: 1px solid #1c2540;
+            margin-top: 50px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media(max-width: 900px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .achievement-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media(max-width: 600px) {
+
+            .player-info {
+                display: none;
+            }
+
+            .game-grid,
+            .stats-grid,
+            .achievement-grid,
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+
+        🎮 <span>PIXEL</span>VERSE
+
+    </div>
+
+
+    <div class="player-info">
+
+        <div class="info">
+
+            <strong>
+                🔥 {{ player['streak'] }}
+            </strong>
+
+            <small>
+                STREAK
+            </small>
+
+        </div>
+
+
+        <div class="info">
+
+            <strong>
+                🪙 {{ player['coins'] }}
+            </strong>
+
+            <small>
+                COINS
+            </small>
+
+        </div>
+
+
+        <div class="info">
+
+            <strong>
+                ⭐ {{ player['level'] }}
+            </strong>
+
+            <small>
+                LEVEL
+            </small>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+        <h1>
+
+            ENTER THE
+
+            <span>PIXELVERSE</span>
+
+        </h1>
+
+
+        <p>
+
+            Play. Challenge yourself.
+            Build your streak.
+            Earn rewards.
+            Become a legend.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="#games"
+                class="main-btn">
+
+                🎮 PLAY NOW
+
+            </a>
+
+
+            <a
+                href="#rewards"
+                class="secondary-btn">
+
+                🎁 REWARDS
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- PLAYER CARD -->
+
+    <div class="profile-card">
+
+        <div class="avatar">
+
+            👨‍🚀
+
+        </div>
+
+
+        <div class="rank">
+
+            CURRENT RANK
+
+        </div>
+
+
+        <h2>
+
+            {{ player['name'] }}
+
+        </h2>
+
+
+        {% set xp_current =
+            player['xp'] % 1000 %}
+
+
+        {% set xp_percent =
+            (xp_current / 1000 * 100) | int %}
+
+
+        <div class="xp-bar">
+
+            <div
+                class="xp-progress"
+                style="width: {{ xp_percent }}%;">
+            </div>
+
+        </div>
+
+
+        <div class="xp-text">
+
+            <span>
+
+                {{ xp_current }} XP
+
+            </span>
+
+            <span>
+
+                1000 XP
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROGRESS -->
+
+<section class="section">
+
+
+    <div class="section-title">
+
+        <h2>
+
+            📊 Your Progress
+
+        </h2>
+
+        <span>
+
+            Keep playing to level up!
+
+        </span>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                🎮
+
+            </div>
+
+            <strong>
+
+                {{ player['games_played'] }}
+
+            </strong>
+
+            <small>
+
+                Games Played
+
+            </small>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                🏆
+
+            </div>
+
+            <strong>
+
+                {{ player['games_won'] }}
+
+            </strong>
+
+            <small>
+
+                Games Won
+
+            </small>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                🔥
+
+            </div>
+
+            <strong>
+
+                {{ player['streak'] }} Days
+
+            </strong>
+
+            <small>
+
+                Current Streak
+
+            </small>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                🪙
+
+            </div>
+
+            <strong>
+
+                {{ player['coins'] }}
+
+            </strong>
+
+            <small>
+
+                Total Coins
+
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- GAMES -->
+
+<section
+    class="section"
+    id="games">
+
+
+    <div class="section-title">
+
+        <h2>
+
+            🎮 GAME UNIVERSE
+
+        </h2>
+
+        <span>
+
+            4 games available
+
+        </span>
+
+    </div>
+
+
+    <div class="game-grid">
+
+
+        <div class="game-card">
+
+            <div class="game-number">
+                01
+            </div>
+
+            <div class="game-icon">
+                ❌⭕
+            </div>
+
+            <h3>
+                Tic Tac Toe
+            </h3>
+
+            <p>
+                Outsmart your opponent
+                and claim victory.
+            </p>
+
+            <a
+                href="/tic-tac-toe"
+                class="play-btn">
+
+                PLAY →
+
+            </a>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-number">
+                02
+            </div>
+
+            <div class="game-icon">
+                🧠
+            </div>
+
+            <h3>
+                Memory Master
+            </h3>
+
+            <p>
+                Match every pair and
+                test your brain.
+            </p>
+
+            <a
+                href="/memory-master"
+                class="play-btn">
+
+                PLAY →
+
+            </a>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-number">
+                03
+            </div>
+
+            <div class="game-icon">
+                🐍
+            </div>
+
+            <h3>
+                Snake Rush
+            </h3>
+
+            <p>
+                Grow longer, survive
+                longer, score higher.
+            </p>
+
+            <a
+                href="/snake-rush"
+                class="play-btn">
+
+                PLAY →
+
+            </a>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-number">
+                04
+            </div>
+
+            <div class="game-icon">
+                🚀
+            </div>
+
+            <h3>
+                Space Blast
+            </h3>
+
+            <p>
+                Destroy enemy ships
+                and defend the galaxy.
+            </p>
+
+            <a
+                href="/space-blast"
+                class="play-btn">
+
+                PLAY →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CHALLENGE -->
+
+<section
+    class="section"
+    id="rewards">
+
+
+    <div class="feature-grid">
+
+
+        <div class="challenge">
+
+            <div>
+                🎯 DAILY CHALLENGE
+            </div>
+
+
+            <h3>
+
+                Score 500 Points
+
+            </h3>
+
+
+            <p>
+
+                Complete today's challenge
+                and earn bonus coins.
+
+            </p>
+
+
+            <div class="challenge-progress">
+
+                <div
+                    style="width: 70%;">
+                </div>
+
+            </div>
+
+
+            <strong>
+
+                350 / 500
+
+            </strong>
+
+
+            <br>
+
+
+            <span
+                style="color:#8992b5;font-size:13px;">
+
+                Reward: 🪙 +250 Coins
+
+            </span>
+
+        </div>
+
+
+        <div class="reward">
+
+            <div class="reward-icon">
+
+                🎁
+
+            </div>
+
+
+            <h3>
+
+                NEXT REWARD
+
+            </h3>
+
+
+            <p>
+
+                Reach Level 15 to unlock
+                an exclusive PIXELVERSE badge.
+
+            </p>
+
+
+            <strong>
+
+                🔒 LEVEL 15
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LEADERBOARD -->
+
+<section class="section">
+
+
+    <div class="section-title">
+
+        <h2>
+
+            🏆 LEADERBOARD
+
+        </h2>
+
+        <span>
+
+            Top Players
+
+        </span>
+
+    </div>
+
+
+    <div class="leaderboard">
+
+
+        <div class="leader">
+
+            <div class="leader-rank">
+                🥇
+            </div>
+
+            <div class="leader-name">
+                ShadowX
+            </div>
+
+            <div class="leader-score">
+                18,450
+            </div>
+
+        </div>
+
+
+        <div class="leader">
+
+            <div class="leader-rank">
+                🥈
+            </div>
+
+            <div class="leader-name">
+                PixelKing
+            </div>
+
+            <div class="leader-score">
+                16,820
+            </div>
+
+        </div>
+
+
+        <div class="leader">
+
+            <div class="leader-rank">
+                🥉
+            </div>
+
+            <div class="leader-name">
+                GameMaster
+            </div>
+
+            <div class="leader-score">
+                15,340
+            </div>
+
+        </div>
+
+
+        <div class="leader">
+
+            <div class="leader-rank">
+                4
+            </div>
+
+            <div class="leader-name">
+                {{ player['name'] }}
+            </div>
+
+            <div class="leader-score">
+                {{ player['xp'] }}
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ACHIEVEMENTS -->
+
+<section class="section">
+
+
+    <div class="section-title">
+
+        <h2>
+
+            🏅 ACHIEVEMENTS
+
+        </h2>
+
+        <span>
+
+            Unlock them by playing!
+
+        </span>
+
+    </div>
+
+
+    <div class="achievement-grid">
+
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                🔥
+            </div>
+
+            <h4>
+                7 Day Streak
+            </h4>
+
+            <p>
+                Play for 7 consecutive days.
+            </p>
+
+        </div>
+
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                🧠
+            </div>
+
+            <h4>
+                Brain Master
+            </h4>
+
+            <p>
+                Complete Memory Master.
+            </p>
+
+        </div>
+
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                🐍
+            </div>
+
+            <h4>
+                Snake King
+            </h4>
+
+            <p>
+                Score 500 in Snake Rush.
+            </p>
+
+        </div>
+
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                🔒
+            </div>
+
+            <h4>
+                Galaxy Hero
+            </h4>
+
+            <p>
+                Defeat 100 enemies.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>
+        🎮 PIXELVERSE
+    </p>
+
+    <small>
+        PLAY • CHALLENGE • ACHIEVE • REPEAT
+    </small>
+
+</footer>
+
+
+</body>
+
+</html>

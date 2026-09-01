@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PIXELVERSE | Space Blast</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        .space-container {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .space-container h1 {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #9aa3c5;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: #151d35;
+            border: 1px solid #293354;
+            border-radius: 15px;
+            padding: 12px 25px;
+            min-width: 100px;
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 21px;
+        }
+
+        .stat-box small {
+            color: #8992b5;
+        }
+
+        #spaceCanvas {
+
+            display: block;
+
+            width: 500px;
+            height: 550px;
+
+            max-width: 92vw;
+            max-height: 70vh;
+
+            margin: auto;
+
+            background: #050816;
+
+            border: 3px solid #7c5cff;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 0 35px rgba(124, 92, 255, 0.3);
+
+        }
+
+        #message {
+            margin-top: 18px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            color: #b8c0dc;
+        }
+
+        .controls {
+            margin-top: 12px;
+
+            color: #8992b5;
+
+            font-size: 14px;
+        }
+
+        .game-buttons {
+            margin-top: 20px;
+        }
+
+        .restart-btn,
+        .back-btn {
+
+            display: inline-block;
+
+            padding: 12px 25px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            color: white;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            margin: 5px;
+
+        }
+
+        .restart-btn {
+            background: #7c5cff;
+        }
+
+        .back-btn {
+            background: #293354;
+        }
+
+        .restart-btn:hover,
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .game-over {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(3, 5, 18, 0.9);
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 100;
+
+        }
+
+        .game-over-box {
+
+            background: #151d35;
+
+            border: 2px solid #7c5cff;
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            animation: popup 0.4s ease;
+
+        }
+
+        .game-over-box h2 {
+
+            font-size: 35px;
+
+            margin-bottom: 15px;
+
+        }
+
+        .game-over-box p {
+
+            color: #aab2d0;
+
+            margin-bottom: 20px;
+
+        }
+
+        @keyframes popup {
+
+            from {
+
+                transform: scale(0.5);
+
+                opacity: 0;
+
+            }
+
+            to {
+
+                transform: scale(1);
+
+                opacity: 1;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+
+        🎮 <span>PIXEL</span>VERSE
+
+    </div>
+
+</header>
+
+
+<div class="space-container">
+
+    <h1>🚀 SPACE BLAST</h1>
+
+    <p class="subtitle">
+        Defend the galaxy and destroy the enemy fleet!
+    </p>
+
+
+    <div class="stats">
+
+
+        <div class="stat-box">
+
+            <strong id="score">
+                0
+            </strong>
+
+            <small>SCORE</small>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <strong id="coins">
+                0
+            </strong>
+
+            <small>COINS</small>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <strong id="lives">
+                ❤️❤️❤️
+            </strong>
+
+            <small>LIVES</small>
+
+        </div>
+
+
+    </div>
+
+
+    <canvas
+        id="spaceCanvas"
+        width="500"
+        height="550">
+    </canvas>
+
+
+    <div id="message">
+
+        🚀 Destroy the enemies!
+
+    </div>
+
+
+    <div class="controls">
+
+        ⬅️ ➡️ Move &nbsp;&nbsp; | &nbsp;&nbsp;
+        SPACE 🔫 Shoot
+
+    </div>
+
+
+    <div class="game-buttons">
+
+        <button
+            class="restart-btn"
+            onclick="startGame()">
+
+            🔄 RESTART
+
+        </button>
+
+
+        <a
+            href="/"
+            class="back-btn">
+
+            🏠 HOME
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="game-over" id="gameOver">
+
+    <div class="game-over-box">
+
+        <h2>💥 GAME OVER!</h2>
+
+        <p id="finalScore">
+
+            Score: 0
+
+        </p>
+
+        <button
+            class="restart-btn"
+            onclick="startGame()">
+
+            ▶ PLAY AGAIN
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+const canvas =
+    document.getElementById("spaceCanvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+
+let player;
+
+let bullets = [];
+
+let enemies = [];
+
+let stars = [];
+
+let score = 0;
+
+let coins = 0;
+
+let lives = 3;
+
+let keys = {};
+
+let gameRunning = false;
+
+let animation;
+
+
+/* =========================
+   START GAME
+========================= */
+
+function startGame() {
+
+    cancelAnimationFrame(animation);
+
+
+    score = 0;
+
+    coins = 0;
+
+    lives = 3;
+
+
+    bullets = [];
+
+    enemies = [];
+
+    stars = [];
+
+
+    player = {
+
+        x: canvas.width / 2 - 22,
+
+        y: canvas.height - 70,
+
+        width: 44,
+
+        height: 40,
+
+        speed: 6
+
+    };
+
+
+    /* CREATE STARS */
+
+    for (let i = 0; i < 70; i++) {
+
+        stars.push({
+
+            x: Math.random() * canvas.width,
+
+            y: Math.random() * canvas.height,
+
+            size: Math.random() * 2 + 1,
+
+            speed: Math.random() * 2 + 0.5
+
+        });
+
+    }
+
+
+    gameRunning = true;
+
+
+    updateStats();
+
+
+    document.getElementById("message")
+        .innerText =
+        "🚀 Destroy the enemy ships!";
+
+
+    document.getElementById("gameOver")
+        .style.display = "none";
+
+
+    gameLoop();
+
+}
+
+
+/* =========================
+   GAME LOOP
+========================= */
+
+function gameLoop() {
+
+    if (!gameRunning) {
+        return;
+    }
+
+
+    update();
+
+    draw();
+
+
+    animation =
+        requestAnimationFrame(gameLoop);
+
+}
+
+
+/* =========================
+   UPDATE
+========================= */
+
+function update() {
+
+
+    /* PLAYER */
+
+    if (keys["ArrowLeft"]) {
+
+        player.x -= player.speed;
+
+    }
+
+
+    if (keys["ArrowRight"]) {
+
+        player.x += player.speed;
+
+    }
+
+
+    /* PLAYER LIMITS */
+
+    if (player.x < 0) {
+
+        player.x = 0;
+
+    }
+
+
+    if (
+        player.x + player.width >
+        canvas.width
+    ) {
+
+        player.x =
+            canvas.width -
+            player.width;
+
+    }
+
+
+    /* BULLETS */
+
+    bullets.forEach(function(bullet) {
+
+        bullet.y -= bullet.speed;
+
+    });
+
+
+    bullets =
+        bullets.filter(
+            bullet => bullet.y > -20
+        );
+
+
+    /* ENEMY MOVEMENT */
+
+    enemies.forEach(function(enemy) {
+
+        enemy.y += enemy.speed;
+
+    });
+
+
+    /* REMOVE ENEMIES BELOW */
+
+    enemies =
+        enemies.filter(function(enemy) {
+
+            if (enemy.y > canvas.height) {
+
+                lives--;
+
+                updateStats();
+
+
+                if (lives <= 0) {
+
+                    endGame();
+
+                }
+
+                return false;
+
+            }
+
+            return true;
+
+        });
+
+
+    /* CREATE ENEMIES */
+
+    if (
+        Math.random() < 0.025
+    ) {
+
+        createEnemy();
+
+    }
+
+
+    /* BULLET VS ENEMY */
+
+    bullets.forEach(function(bullet, bulletIndex) {
+
+
+        enemies.forEach(function(enemy, enemyIndex) {
+
+
+            if (
+
+                bullet.x <
+                    enemy.x + enemy.width &&
+
+                bullet.x + bullet.width >
+                    enemy.x &&
+
+                bullet.y <
+                    enemy.y + enemy.height &&
+
+                bullet.y + bullet.height >
+                    enemy.y
+
+            ) {
+
+
+                bullets.splice(
+                    bulletIndex,
+                    1
+                );
+
+
+                enemies.splice(
+                    enemyIndex,
+                    1
+                );
+
+
+                score += 10;
+
+                coins += 2;
+
+
+                updateStats();
+
+
+            }
+
+        });
+
+    });
+
+
+    /* ENEMY VS PLAYER */
+
+    enemies.forEach(function(enemy, index) {
+
+
+        if (
+
+            player.x <
+                enemy.x + enemy.width &&
+
+            player.x + player.width >
+                enemy.x &&
+
+            player.y <
+                enemy.y + enemy.height &&
+
+            player.y + player.height >
+                enemy.y
+
+        ) {
+
+
+            enemies.splice(index, 1);
+
+
+            lives--;
+
+
+            updateStats();
+
+
+            if (lives <= 0) {
+
+                endGame();
+
+            }
+
+        }
+
+    });
+
+
+    /* STARS */
+
+    stars.forEach(function(star) {
+
+        star.y += star.speed;
+
+
+        if (star.y > canvas.height) {
+
+            star.y = 0;
+
+            star.x =
+                Math.random() *
+                canvas.width;
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   CREATE ENEMY
+========================= */
+
+function createEnemy() {
+
+    const size = 36;
+
+
+    enemies.push({
+
+        x:
+            Math.random() *
+            (canvas.width - size),
+
+        y: -size,
+
+        width: size,
+
+        height: size,
+
+        speed:
+            1.5 +
+            Math.random() * 2
+
+    });
+
+}
+
+
+/* =========================
+   SHOOT
+========================= */
+
+function shoot() {
+
+    if (!gameRunning) {
+        return;
+    }
+
+
+    bullets.push({
+
+        x:
+            player.x +
+            player.width / 2 -
+            3,
+
+        y:
+            player.y -
+
+            5,
+
+        width: 6,
+
+        height: 15,
+
+        speed: 9
+
+    });
+
+}
+
+
+/* =========================
+   DRAW
+========================= */
+
+function draw() {
+
+
+    /* BACKGROUND */
+
+    ctx.fillStyle = "#050816";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /* STARS */
+
+    stars.forEach(function(star) {
+
+        ctx.fillStyle = "#ffffff";
+
+        ctx.fillRect(
+
+            star.x,
+
+            star.y,
+
+            star.size,
+
+            star.size
+
+        );
+
+    });
+
+
+    /* PLAYER SHIP */
+
+    drawPlayer();
+
+
+    /* BULLETS */
+
+    bullets.forEach(function(bullet) {
+
+        ctx.fillStyle = "#ffffff";
+
+        ctx.fillRect(
+
+            bullet.x,
+
+            bullet.y,
+
+            bullet.width,
+
+            bullet.height
+
+        );
+
+    });
+
+
+    /* ENEMIES */
+
+    enemies.forEach(function(enemy) {
+
+        drawEnemy(enemy);
+
+    });
+
+}
+
+
+/* =========================
+   DRAW PLAYER
+========================= */
+
+function drawPlayer() {
+
+    const x = player.x;
+
+    const y = player.y;
+
+
+    /* BODY */
+
+    ctx.fillStyle = "#7c5cff";
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x + player.width / 2,
+        y
+    );
+
+    ctx.lineTo(
+        x + player.width,
+        y + player.height
+    );
+
+    ctx.lineTo(
+        x + player.width / 2,
+        y + player.height - 10
+    );
+
+    ctx.lineTo(
+        x,
+        y + player.height
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    /* COCKPIT */
+
+    ctx.fillStyle = "#ffffff";
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+
+        x + player.width / 2,
+
+        y + 18,
+
+        6,
+
+        0,
+
+        Math.PI * 2
+
+    );
+
+    ctx.fill();
+
+
+    /* ENGINE */
+
+    ctx.fillStyle = "#ff9f1c";
+
+
+    ctx.fillRect(
+
+        x + 15,
+
+        y + player.height - 2,
+
+        14,
+
+        8
+
+    );
+
+}
+
+
+/* =========================
+   DRAW ENEMY
+========================= */
+
+function drawEnemy(enemy) {
+
+    const x = enemy.x;
+
+    const y = enemy.y;
+
+
+    ctx.fillStyle = "#ff4d6d";
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x + enemy.width / 2,
+        y + enemy.height
+    );
+
+    ctx.lineTo(
+        x,
+        y
+    );
+
+    ctx.lineTo(
+        x + enemy.width,
+        y
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    /* EYES */
+
+    ctx.fillStyle = "#ffffff";
+
+
+    ctx.fillRect(
+        x + 8,
+        y + 10,
+        6,
+        6
+    );
+
+
+    ctx.fillRect(
+        x + 22,
+        y + 10,
+        6,
+        6
+    );
+
+}
+
+
+/* =========================
+   UPDATE STATS
+========================= */
+
+function updateStats() {
+
+    document.getElementById("score")
+        .innerText = score;
+
+
+    document.getElementById("coins")
+        .innerText = coins;
+
+
+    document.getElementById("lives")
+        .innerText =
+        "❤️".repeat(lives);
+
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+function endGame() {
+
+    gameRunning = false;
+
+
+    cancelAnimationFrame(animation);
+
+
+    document.getElementById("finalScore")
+        .innerText =
+        "Score: " +
+        score +
+        " | 🪙 Coins: +" +
+        coins;
+
+
+    document.getElementById("gameOver")
+        .style.display = "flex";
+
+}
+
+
+/* =========================
+   KEYBOARD
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        keys[event.key] = true;
+
+
+        if (event.code === "Space") {
+
+            event.preventDefault();
+
+            shoot();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keyup",
+    function(event) {
+
+        keys[event.key] = false;
+
+    }
+);
+
+
+/* START */
+
+startGame();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b1020;
+    color: white;
+    min-height: 100vh;
+}
+
+/* Header */
+
+header {
+    width: 100%;
+    padding: 20px 50px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #11182d;
+    border-bottom: 1px solid #26304f;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #7c5cff;
+}
+
+/* Player information */
+
+.player-info {
+    display: flex;
+    gap: 30px;
+}
+
+.info {
+    text-align: center;
+}
+
+.info strong {
+    display: block;
+    font-size: 18px;
+}
+
+.info small {
+    color: #8992b5;
+}
+
+/* Main */
+
+main {
+    padding: 60px 8%;
+}
+
+/* Welcome */
+
+.welcome {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.welcome h1 {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.welcome h1 span {
+    color: #7c5cff;
+}
+
+.welcome p {
+    color: #9aa3c5;
+    font-size: 18px;
+}
+
+/* Game area */
+
+.game-area {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Game cards */
+
+.game-card {
+    padding: 35px;
+
+    background: #151d35;
+
+    border: 1px solid #293354;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    transition: 0.3s;
+}
+
+.game-card:hover {
+    transform: translateY(-8px);
+    border-color: #7c5cff;
+    box-shadow: 0 15px 40px rgba(124, 92, 255, 0.2);
+}
+
+.game-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.game-card h2 {
+    margin-bottom: 10px;
+}
+
+.game-card p {
+    color: #8e97b8;
+    margin-bottom: 25px;
+}
+
+.play {
+    padding: 12px 30px;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #7c5cff;
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.play:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+
+    color: #626b8c;
+}
