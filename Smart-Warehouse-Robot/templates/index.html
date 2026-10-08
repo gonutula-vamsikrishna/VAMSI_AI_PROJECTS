@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Smart Warehouse Delivery Robot
+</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            🤖 SMART WAREHOUSE DELIVERY ROBOT
+        </h1>
+
+        <p>
+            STRIPS Planning + Uniform Cost Search (UCS)
+        </p>
+
+    </div>
+
+    <div class="control-panel">
+
+        <button id="startBtn">
+
+            🚀 Start Delivery
+
+        </button>
+
+    </div>
+
+    <div class="status-card">
+
+        <h2>
+            Robot Status
+        </h2>
+
+        <div id="status">
+            Waiting For Customer Order...
+        </div>
+
+        <div class="progress">
+
+            <div id="bar">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="map">
+
+        <div class="node warehouse"
+        id="Warehouse">
+
+            🏭 Warehouse
+
+        </div>
+
+        <div class="node"
+        id="A">
+
+            A
+
+        </div>
+
+        <div class="node"
+        id="B">
+
+            B
+
+        </div>
+
+        <div class="node"
+        id="C">
+
+            C
+
+        </div>
+
+        <div class="node"
+        id="D">
+
+            D
+
+        </div>
+
+        <div class="node house"
+        id="House1">
+
+            🏠 House1
+
+        </div>
+
+        <div class="node house"
+        id="House2">
+
+            🏠 House2
+
+        </div>
+
+        <div class="node house"
+        id="House3">
+
+            🏠 House3
+
+        </div>
+
+        <div class="node house"
+        id="House4">
+
+            🏠 House4
+
+        </div>
+
+        <div class="node house"
+        id="House5">
+
+            🏠 House5
+
+        </div>
+
+        <div id="robot">
+
+            🤖
+
+        </div>
+
+    </div>
+
+    <div class="info-grid">
+
+        <div class="card">
+
+            <h3>
+                📍 Current State
+            </h3>
+
+            <div id="currentState">
+
+                Waiting...
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                🚀 UCS Path
+            </h3>
+
+            <div id="path">
+
+                -
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                💰 Total Cost
+            </h3>
+
+            <div id="cost">
+
+                -
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                🧠 STRIPS Plan
+            </h3>
+
+            <div id="strips">
+
+                -
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                📦 Order Details
+            </h3>
+
+            <div>
+
+                Product :
+                Smart Phone
+
+                <br><br>
+
+                Customer :
+                House2
+
+                <br><br>
+
+                Priority :
+                High
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                🏭 Warehouse Inventory
+            </h3>
+
+            <div>
+
+                A → Smart Phone
+
+                <br><br>
+
+                B → Laptop
+
+                <br><br>
+
+                C → Headphones
+
+                <br><br>
+
+                D → Camera
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script
+src="{{ url_for('static',
+filename='script.js') }}">
+</script>
+
+</body>
+
+</html>
