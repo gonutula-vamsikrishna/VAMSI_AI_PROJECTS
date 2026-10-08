@@ -30,6 +30,27 @@ The project provides a visual representation of dynamic water-level control usin
 
 👉 [View AquaSearch](./AquaSearch)
 
+
+---
+
+## 🤖 Smart Warehouse Delivery Robot
+
+An AI-powered warehouse delivery robot simulation that uses STRIPS Planning and Uniform Cost Search (UCS) to deliver products from a warehouse to customer houses.
+
+### Features
+- STRIPS Planning
+- Uniform Cost Search (UCS)
+- Animated Robot Movement
+- Warehouse A, B, C, D
+- Society Houses 1–5
+- Goal State Achievement
+- Flask Web Application
+
+### Technologies
+Python, Flask, HTML5, CSS3, JavaScript
+
+👉 View Smart Warehouse Robot
+
 ---
 
 ## 🛠️ Technologies & Skills
